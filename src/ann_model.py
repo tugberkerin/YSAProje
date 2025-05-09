@@ -132,3 +132,37 @@ def ozellik_onem_analizi(model, X_test, feature_names=None):
 
 if __name__ == "__main__":
     print("Bu bir modül olarak tasarlanmıştır. Lütfen main.py üzerinden çalıştırın.")
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+def ann_modelini_olustur(input_dim):
+    """
+    YSA modelini oluşturur
+    """
+    print("YSA modeli oluşturuluyor...")
+    model = Sequential()
+    model.add(Dense(64, input_dim=input_dim, activation='relu'))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(1, activation='linear'))
+
+    model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+    print("Model başarıyla oluşturuldu.")
+    return model
+
+def ann_modelini_egit(model, X_train, y_train, epochs=100, batch_size=32, validation_split=0.2):
+    """
+    YSA modelini eğitir
+    """
+    print("YSA modeli eğitiliyor...")
+    history = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=validation_split, verbose=1)
+    print("Model eğitimi tamamlandı.")
+    return history, model
+
+def ann_tahmin_et(model, X_test):
+    """
+    YSA modeli ile tahmin yapar
+    """
+    print("YSA modeli ile tahmin yapılıyor...")
+    y_pred = model.predict(X_test).flatten()
+    return y_pred
